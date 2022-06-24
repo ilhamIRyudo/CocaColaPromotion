@@ -68,7 +68,7 @@
                             </select>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" id="promoValueType" placeholder="" name="promoValueType" required>
+                            <input type="number" class="form-control" id="promoValueType" placeholder="" name="promoValueType" required disabled>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     alert("Start Date cant be bigger than End Date");
                     $(this).val(today);
                 }
-            })
+            });
 
             $('#promoEndDate').change(function(e) {
                 if (new Date($("#promoEndDate").val()) < new Date($("#promoStartDate").val())) {
@@ -167,7 +167,16 @@
                     alert("End Date cant be smaller than Start Date");
                     $(this).val(today);
                 }
-            })
+            });
+
+            $('#promoValueCheck').change(function(e) {
+                $('#promoValueType').prop("disabled", false);
+                if ($(this).val() == "percent") {
+                    $('#promoValueType').prop("max", 100);
+                } else if ($(this).val() == "amount")  {
+                    $('#promoValueType').prop("max", "");
+                }
+            });
 
              $( "#submitBtn" ).submit(function( event ) {
                 event.preventDefault();

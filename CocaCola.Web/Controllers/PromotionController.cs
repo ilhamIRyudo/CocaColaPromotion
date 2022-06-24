@@ -27,7 +27,9 @@ namespace CocaCola.Web.Controllers
         [Route("GetStore")]
         public async Task<List<Store>> GetStore() {
 
-            var result = await _promotionService.GetStore();
+            var path = Environment.CurrentDirectory + @"\Database\Stores.xlsx";
+
+            var result = await _promotionService.GetStore(path);
 
             return result;
         }

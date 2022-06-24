@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CocaCola.Web", "CocaCola.Web\CocaCola.Web.csproj", "{490DC9F2-BE77-40EC-A48B-BD78FFD6487E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CocaCola.UnitTest", "CocaCola.UnitTest\CocaCola.UnitTest.csproj", "{58B958B6-D92A-4289-B5F2-BF168BEAEBA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{490DC9F2-BE77-40EC-A48B-BD78FFD6487E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{490DC9F2-BE77-40EC-A48B-BD78FFD6487E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{490DC9F2-BE77-40EC-A48B-BD78FFD6487E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58B958B6-D92A-4289-B5F2-BF168BEAEBA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58B958B6-D92A-4289-B5F2-BF168BEAEBA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58B958B6-D92A-4289-B5F2-BF168BEAEBA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58B958B6-D92A-4289-B5F2-BF168BEAEBA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

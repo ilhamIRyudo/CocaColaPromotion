@@ -21,14 +21,14 @@ namespace CocaCola.Web.Services
             return items.Where(x => x != "ITEM").ToList();
         }
 
-        public async Task<List<Store>> GetStore()
+        public async Task<List<Store>> GetStore(string path)
         {
             var stores = new List<Store>();
 
             try
             {
                 //get data from excel
-                var path = Environment.CurrentDirectory + @"\Database\Stores.xlsx";
+
                 WorkBook book = WorkBook.Load(path);
                 WorkSheet sheet = book.GetWorkSheet("Sheet1");
                 var rangeA = sheet.GetColumn("A");
