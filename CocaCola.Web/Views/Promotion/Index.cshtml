@@ -61,7 +61,7 @@
                     <label for="promoValueType">Value Type</label>
                     <div class="row">
                         <div class="col-6">
-                            <select class="form-select" aria-label="Value Type">
+                            <select class="form-select" aria-label="Value Type" id="promoValueCheck">
                               <option selected disabled>Percentage or Amount</option>
                               <option value="percent">Percentage</option>
                               <option value="amount">Amount</option>
@@ -79,7 +79,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="promoItem">Item</label>
-                    <input class="form-control" type="file" id="promoItem">
+                    <input class="form-control" type="file" id="promoItem" required>
                 </div>
             </div>
         </div>
@@ -87,23 +87,25 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="promoItem">Store</label>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="checkAll">
-                      <label class="form-check-label" for="flexCheckDefault">
-                        All
-                      </label>
-                    </div>
-                    <div id="checkboxes">
-                        @foreach(var store in Model.Store)
-                        {
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="@store.StoreId" id="store@(store.StoreId)">
-                              <label class="form-check-label" for="flexCheckDefault">
-                                @store.StoreId - @store.Store_Name
-                              </label>
-                            </div>
-                        }
+                    <div id="AllCheckbox">
+                        <label for="promoItem">Store</label>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="checkAll">
+                          <label class="form-check-label" for="flexCheckDefault">
+                            All
+                          </label>
+                        </div>
+                        <div id="checkboxes">
+                            @foreach(var store in Model.Store)
+                            {
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="@store.StoreId" id="store@(store.StoreId)">
+                                  <label class="form-check-label" for="flexCheckDefault">
+                                    @store.StoreId - @store.Store_Name
+                                  </label>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,15 +172,25 @@
              $( "#submitBtn" ).submit(function( event ) {
                 event.preventDefault();
                 
-                 if ($("#promoType").val() == "") {
+                 if (!$("#promoType").val()) {
                      alert("Promo Type not yet selected");
                      return;
                  }
-                 if ($("#promoValueType").val() == "") {
+                 if (!$("#promoValueCheck").val()) {
                      alert("Value Type not yet selected");
                      return;
                  }
                  
+                if ($("#AllCheckbox input:checkbox:checked").length > 0)
+                {
+                    // any one is checked
+                }
+                else
+                {
+                   alert("None of store is checked");
+                   return;
+                }
+
                 //JSON data
                 var dataType = 'application/json;';
                 var data = {
