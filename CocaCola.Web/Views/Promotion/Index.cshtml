@@ -1,0 +1,236 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CocaCola.Web.Models.Promotion
+@{
+    ViewData["Title"] = "Promotion Page";
+}
+<h1>@ViewData["Title"]</h1>
+
+<br />
+<br />
+
+<div class="container-fluid">
+    @*<form method="post" enctype="multipart/form-data" asp-controller="Promotion" asp-action="Submit">*@
+    
+    <form method="post" id="submitBtn">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="promoId">Promo Id</label>
+                    <input type="text" class="form-control" id="promoId" placeholder="" name="promoId" disabled>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="promoDesc">Promo Description</label>
+                    <input asp-for="Description" type="text" class="form-control" id="promoDesc" placeholder="" name="promoDesc" required>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="promoType">Promo Type</label>
+                    <select class="form-select" aria-label="Promo Type" id="promoType">
+                        <option selected disabled>Simple Discount or Completed Discount</option>
+                        <option value="S">Simple Discount</option>
+                        <option value="C">Completed Discount</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="promoStartDate">Start Date</label>
+                    <input type="date" asp-for="StartDate" class="form-control" id="promoStartDate" placeholder="Start Date" name="promoStartDate" required>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="promoDur">End Date</label>
+                    <input type="date" asp-for="EndDate" class="form-control" id="promoEndDate" placeholder="End Date" name="promoStartDate" required>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="promoValueType">Value Type</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <select class="form-select" aria-label="Value Type">
+                              <option selected disabled>Percentage or Amount</option>
+                              <option value="percent">Percentage</option>
+                              <option value="amount">Amount</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" id="promoValueType" placeholder="" name="promoValueType" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="promoItem">Item</label>
+                    <input class="form-control" type="file" id="promoItem">
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="promoItem">Store</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="checkAll">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        All
+                      </label>
+                    </div>
+                    <div id="checkboxes">
+                        @foreach(var store in Model.Store)
+                        {
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="@store.StoreId" id="store@(store.StoreId)">
+                              <label class="form-check-label" for="flexCheckDefault">
+                                @store.StoreId - @store.Store_Name
+                              </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-3">
+                            <button class="btn btn-success" type="submit" id="promoItem"> Submit </button>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-danger" type="reset" id="promoItem"> Reset </button>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-warning" type="button" id="promoItem"> Cancel </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+
+            var now = new Date();
+
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+            $('#checkAll').change(function() {
+                // this will contain a reference to the checkbox   
+                if ($(this).is(':checked')) {
+                    $('#checkboxes :checkbox').each(function() {
+                        $(this).prop('checked', true); // Checks it
+                    });
+                } else {
+                    $('#checkboxes :checkbox').each(function() {
+                        $(this).prop('checked', false); // Unchecks it
+                    });
+                }
+            });
+
+            $('#promoStartDate').change(function(e) {
+                if (new Date($("#promoStartDate").val()) > new Date($("#promoEndDate").val())) {
+                    e.preventDefault();
+                    alert("Start Date cant be bigger than End Date");
+                    $(this).val(today);
+                }
+            })
+
+            $('#promoEndDate').change(function(e) {
+                if (new Date($("#promoEndDate").val()) < new Date($("#promoStartDate").val())) {
+                    e.preventDefault();
+                    alert("End Date cant be smaller than Start Date");
+                    $(this).val(today);
+                }
+            })
+
+             $( "#submitBtn" ).submit(function( event ) {
+                event.preventDefault();
+                
+                 if ($("#promoType").val() == "") {
+                     alert("Promo Type not yet selected");
+                     return;
+                 }
+                 if ($("#promoValueType").val() == "") {
+                     alert("Value Type not yet selected");
+                     return;
+                 }
+                 
+                //JSON data
+                var dataType = 'application/json;';
+                var data = {
+                    Id: "",
+                    Description: $("#promoDesc").val(),
+                    Type: $("#promoType").val(),
+                    StartDate: new Date($("#promoStartDate").val()),
+                    EndDate: new Date($("#promoEndDate").val()),
+                    ValueType: $("#promoValueType").val(),
+                    Items: [],
+                    Store: []
+                }
+
+                var formData = new FormData($(this)[0]);
+                formData.append('file', $("#promoItem")[0].files[0]);
+
+                $.ajax({
+                    url: '@Url.Action("GetItemFromFile")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+
+                        data.Items = result;
+
+                        //get all checked data
+                        var selected = [];
+                        $('#checkboxes input:checked').each(function() {
+                            data.Store.push($(this).val());
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("Submit")',
+                            dataType: 'json',
+                            contentType: dataType,
+                            data: JSON.stringify(data),
+                            complete: function(result) {
+                                alert(result.responseText);
+                            }
+                        });
+                    }
+                });
+       
+             });
+        })
+       
+
+    </script>
+}
+
